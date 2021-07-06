@@ -1,0 +1,2 @@
+model_checkpoint_path: "fixed_triangle2_ns"
+all_model_checkpoint_paths: "fixed_triangle2_ns"

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro to add a generic odometry sensor. -->
+  <xacro:macro name="odometry_plugin_macro"
+    params="
+      namespace
+      parent_link
+      ">
+
+    <gazebo>
+      <plugin filename="libodometry_plugin.so" name="${namespace}_odometry_sensor">
+        <linkName>${parent_link}</linkName>
+        <namespace>${namespace}</namespace>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+
+</robot>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro to add an IMU. -->
+  <xacro:macro name="imu_plugin_macro"
+    params="
+      namespace
+      parent_link
+      ">
+
+    <gazebo>
+      <plugin filename="libimu_plugin.so" name="${namespace}_imu">
+        <namespace>${namespace}</namespace>
+        <linkName>${parent_link}</linkName>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

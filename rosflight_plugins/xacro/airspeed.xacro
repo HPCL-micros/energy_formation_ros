@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- Macro to add an Airspeed. -->
+  <xacro:macro name="airspeed_plugin_macro"
+    params="
+      namespace
+      parent_link
+      ">
+
+    <!-- Load Plugin -->
+    <gazebo>
+      <plugin filename="libairspeed_plugin.so" name="${namespace}_airspeed_sensor">
+        <namespace>${namespace}</namespace>
+        <linkName>${parent_link}</linkName>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

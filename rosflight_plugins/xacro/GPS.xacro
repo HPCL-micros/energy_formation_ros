@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro to add a GPS module. -->
+  <xacro:macro name="gps_plugin_macro"
+    params="
+      namespace
+      parent_link
+      ">
+
+    <!-- Load Plugin -->
+    <gazebo>
+      <plugin filename="libGPS_plugin.so" name="${namespace}_GPS">
+        <namespace>${namespace}</namespace>
+        <linkName>${parent_link}</linkName>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

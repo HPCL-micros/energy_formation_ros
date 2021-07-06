@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="mav_name"            default="fixedwing"/>
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="world_name" value="$(find hector_quadrotor_gazebo)/airport.world"/>
+  </include>
+
+  <arg name="model" default="$(find hector_quadrotor_description)/urdf/quadrotor.gazebo.xacro" />
+  
+  <group ns="uav0">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav0" />
+       <arg name="tf_prefix" value="uav0" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="0" />
+     </include>
+   </group>
+
+   <group ns="uav1">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav1" />
+       <arg name="tf_prefix" value="uav1" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="5" />
+     </include>
+   </group>
+
+   <group ns="uav2">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav2" />
+       <arg name="tf_prefix" value="uav2" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="10" />
+     </include>
+   </group>
+   
+   <group ns="uav3">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav3" />
+       <arg name="tf_prefix" value="uav3" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="15" />
+     </include>
+   </group>
+
+   
+   <group ns="uav8">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav8" />
+       <arg name="tf_prefix" value="uav8" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="-10" />
+     </include>
+   </group>
+   
+   <group ns="uav9">
+     <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+       <arg name="name" value="uav9" />
+       <arg name="tf_prefix" value="uav9" />
+       <arg name="model" value="$(arg model)" />
+       <arg name="y" value="-15" />
+     </include>
+   </group>
+   
+   
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav4" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="20" />   
+  </include>
+  <group ns="uav4">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+  
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav5" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="25" />   
+  </include>
+  <group ns="uav5">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+  
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav6" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="30" />   
+  </include>
+  <group ns="uav6">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+  
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav7" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="-5" />   
+  </include>
+  <group ns="uav7">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+  
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav10" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="-20" />   
+  </include>
+  <group ns="uav10">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+  
+  <include file="$(find rosplane_sim)/launch/spawn_mav.launch">
+    <arg name="mav_name"            value="$(arg mav_name)" />
+    <arg name="model"               value="$(find rosplane_sim)/xacro/$(arg mav_name).xacro" />
+    <arg name="robot_namespace"            value="uav11" />    
+    <arg name="x"            value="0" />   
+    <arg name="y"            value="-25" />   
+  </include>
+  <group ns="uav11">
+    <!-- Load Global Parameters for this MAV -->
+    <rosparam command="load" file="$(find rosplane_sim)/params/$(arg mav_name).yaml"/>
+
+    <node name="autopilot" pkg="rosplane" type="rosplane_controller" >
+      <remap from="state" to="truth"/>
+    </node>
+
+    <node name="estimator" pkg="rosplane" type="rosplane_estimator" output="screen"/>
+    <!-- Must publish a status: armed to estimate states -->
+    <node name="status_publisher" pkg="rostopic" type="rostopic" output="screen"
+      args="pub status rosflight_msgs/Status '{header: {seq: 0, stamp: 0, frame_id: 'none'},
+      armed: 'true', failsafe: 'false', rc_override: 'false', offboard: 'false',
+      control_mode: 0, error_code: 0, num_errors: 0, loop_time_us: 0}'"/>
+  </group>
+   
+   
+</launch>

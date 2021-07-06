@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Macro to add a magnetometer. -->
+  <xacro:macro name="magnetometer_plugin_macro"
+    params="
+      namespace
+      parent_link
+      ">
+
+    <gazebo>
+      <plugin filename="libmagnetometer_plugin.so" name="${namespace}_magnetometer">
+        <namespace>${namespace}</namespace>
+        <linkName>${parent_link}</linkName>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+
+</robot>
